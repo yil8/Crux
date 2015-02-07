@@ -13,7 +13,7 @@ public class Scanner implements Iterable<Token> {
 	private int nextChar; // contains the next char (-1 == EOF)
 	private Reader input;
 	
-	Scanner(Reader reader)
+	public Scanner(Reader reader)
 	{
 		lineNum = 1;
 		charPos = 0;
@@ -24,6 +24,7 @@ public class Scanner implements Iterable<Token> {
 	public Token next()
 	{
 		Token tok = nextImpl();
+		//System.out.println("Scanner returning: " + tok);
 		return tok;
 	}
 	
@@ -73,7 +74,7 @@ public class Scanner implements Iterable<Token> {
 		if (nextChar == '/') {
 			nextChar = readChar();
 			if (nextChar == '/') {
-				while ((nextChar = readChar()) != '\n' && nextChar != -1) {}
+				while ((nextChar = readChar()) != '\n') {}
 				return next();
 			}
 			return new Token("/", lineNum, pos);
@@ -116,13 +117,12 @@ public class Scanner implements Iterable<Token> {
 		}
 		
 		else if (nextChar == '!') {
-			String c = Character.toString((char)nextChar);
 			nextChar = readChar();
 			if (nextChar == '=') {
 				nextChar = readChar();
 				return new Token("!=", lineNum, pos);
 			}
-			return Token.Error("Unexpected character: "+c, lineNum, pos);
+			return Token.Error("Unexpected character: "+nextChar, lineNum, pos);
 		}
 			
 		else if (Character.isDigit(nextChar))

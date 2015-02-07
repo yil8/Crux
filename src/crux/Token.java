@@ -49,13 +49,13 @@ public class Token {
 		INTEGER(),
 		FLOAT(),
 		ERROR(),
-		EOF("");
+		EOF();
 		
 		private String default_lexeme;
 		
 		Kind()
 		{
-			default_lexeme = null;
+			default_lexeme = "";
 		}
 		
 		Kind(String lexeme)
@@ -65,19 +65,18 @@ public class Token {
 		
 		public boolean matches(int c)
 		{
-			return default_lexeme != null
-			    && default_lexeme.length() == 1
+			return default_lexeme.length() == 1
                 && default_lexeme.charAt(0) == c;
 		}
 		
 		public boolean matches(String lexeme)
 		{
-			return lexeme.equals(default_lexeme);
+			return default_lexeme.equals(lexeme);
 		}
 		
 		public boolean hasStaticLexeme()
 		{
-			return default_lexeme != null;
+			return default_lexeme != "";
 		}
 	}
 	
@@ -223,5 +222,10 @@ public class Token {
 		    && this.lexeme().equals(tok.lexeme())
 		    && this.lineNum == tok.lineNum
 		    && this.charPos == tok.charPos;
+	}
+	
+	public Kind kind()
+	{
+		return kind;
 	}
 }
