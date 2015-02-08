@@ -1,10 +1,12 @@
 package crux;
 
+import crux.Token.Kind;
+
 public class Test {
 	public static void main(String[] args)
 	{
-		int i = 65;
-		
-		System.out.println(66 == 'A');
+		for (Kind tok: Token.Kind.values()) {
+			System.out.println(tok.name());
+		}
 	}	
 }

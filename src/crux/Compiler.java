@@ -11,17 +11,19 @@ public class Compiler {
     
     public static void main(String[] args)
     {
-    	System.out.println("Running Lab2");
-        for (int i=1; i<=15; ++i)
-        {
-        	String sourceFilename = String.format("tests/test%02d.crx", i);
-        	fileCompile(sourceFilename);
-        }
-        for (int i=1; i<=10; ++i)
-        {
-        	String sourceFilename = String.format("tests/testP%02d.crx", i);
-        	fileCompile(sourceFilename);
-        }
+//    	System.out.println("Running Lab2");
+//        for (int i=1; i<=15; ++i)
+//        {
+//        	String sourceFilename = String.format("tests/test%02d.crx", i);
+//        	fileCompile(sourceFilename);
+//        }
+//        for (int i=1; i<=10; ++i)
+//        {
+//        	String sourceFilename = String.format("tests/testP%02d.crx", i);
+//        	fileCompile(sourceFilename);
+//        }
+    	
+    	fileCompile(args[0]);
     }
     
     public static void fileCompile(String sourceFilename)
@@ -57,9 +59,12 @@ public class Compiler {
                 outStream.println("Error parsing file.");
                 outStream.println(p.errorReport());
                 outStream.close();
+                System.out.println("Error parsing file.");
+                System.out.println(p.errorReport());
                 //System.exit(-3);
             }
             outStream.println(p.parseTreeReport());
+            System.out.println(p.parseTreeReport());
             outStream.close();
         } catch (IOException e) {
             e.printStackTrace();
