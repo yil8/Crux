@@ -104,7 +104,7 @@ public enum NonTerminal {
 		{
 			add(Token.Kind.ARRAY);
 	    }}),
-	FUNCTION_DEFINITION(new HashSet<Token.Kind>() {
+	FUNCTION_DECLARATION(new HashSet<Token.Kind>() {
         private static final long serialVersionUID = 1L;
 		{
 			add(Token.Kind.FUNC);
@@ -114,7 +114,7 @@ public enum NonTerminal {
 		{
 			addAll(VARIABLE_DECLARATION.firstSet);
 			addAll(ARRAY_DECLARATION.firstSet);
-			addAll(FUNCTION_DEFINITION.firstSet);
+			addAll(FUNCTION_DECLARATION.firstSet);
 	    }}),
 	DECLARATION_LIST(new HashSet<Token.Kind>() {
         private static final long serialVersionUID = 1L;

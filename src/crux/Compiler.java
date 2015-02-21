@@ -9,27 +9,24 @@ public class Compiler {
     public static String studentID = "TODO: Your 8-digit id";
     public static String uciNetID = "TODO: uci-net id";
     
+    public static boolean release = false;
+    
     public static void main(String[] args)
     {
-//    	System.out.println("Running Lab2");
-//        for (int i=1; i<=15; ++i)
-//        {
-//        	String sourceFilename = String.format("tests/test%02d.crx", i);
-//        	fileCompile(sourceFilename);
-//        }
-//        for (int i=1; i<=10; ++i)
-//        {
-//        	String sourceFilename = String.format("tests/testP%02d.crx", i);
-//        	fileCompile(sourceFilename);
-//        }
+//    	if (release) {
+//    		releasedMain(args[0]);
+//    	} else {
+//	        for (int i=1; i<=11; ++i) {
+//	        	String sourceFilename = String.format("tests/private/testP%02d.crx", i);
+//	        	fileCompile(sourceFilename);
+//	        }
+//    	}
     	
     	fileCompile(args[0]);
     }
     
-    public static void fileCompile(String sourceFilename)
+    public static void releasedMain(String sourceFilename)
     {
-    	System.out.println("outputing for " + sourceFilename);
-    	
         Scanner s = null;
         try {
             s = new Scanner(new FileReader(sourceFilename));
@@ -39,38 +36,59 @@ public class Compiler {
             System.exit(-2);
         }
 
-        // Release
         Parser p = new Parser(s);
         p.parse();
-        /*
         if (p.hasError()) {
-            System.out.println("Error parsing file ");
+            System.out.println("Error parsing file.");
             System.out.println(p.errorReport());
             System.exit(-3);
         }
-        System.out.println(p.parseTreeReport());
-        */
+        System.out.println("Crux program successfully parsed.");
 
-        String outFilename = sourceFilename.replace(".crx", ".out");
+    }
+        
+    public static void fileCompile(String sourceFilename)
+    {
+//    	System.out.println("outputing for " + sourceFilename);
+        
+        Scanner s = null;
         try {
-            File outFile = new File(outFilename);
-            PrintStream outStream = new PrintStream(outFile);
-            if (p.hasError()) {
-                outStream.println("Error parsing file.");
-                outStream.println(p.errorReport());
-                outStream.close();
-                System.out.println("Error parsing file.");
-                System.out.println(p.errorReport());
-                //System.exit(-3);
-            }
-            outStream.println(p.parseTreeReport());
-            System.out.println(p.parseTreeReport());
-            outStream.close();
+            s = new Scanner(new FileReader(sourceFilename));
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error creating output file: \"" + outFilename + "\"");
-            System.exit(-6);
+            System.err.println("Error accessing the source file: \"" + sourceFilename + "\"");
+            System.exit(-2);
         }
+
+        Parser p = new Parser(s);
+        p.parse();
+        if (p.hasError()) {
+            System.out.println("Error parsing file " + sourceFilename);
+            System.out.println(p.errorReport());
+            System.exit(-3);
+        }
+        System.out.println("Crux program successfully parsed.");
+
+        
+        
+        
+//        String outFilename = sourceFilename.replace(".crx", ".out.new");
+//        try {
+//            File outFile = new File(outFilename);
+//            PrintStream outStream = new PrintStream(outFile);
+//            if (p.hasError()) {
+//                outStream.println("Error parsing file.");
+//                outStream.println(p.errorReport());
+//                outStream.close();
+//                //System.exit(-3);
+//            }
+//            outStream.println("Crux program successfully parsed.");
+//            outStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.err.println("Error creating output file: \"" + outFilename + "\"");
+//            System.exit(-6);
+//        }
     }
 }
     
