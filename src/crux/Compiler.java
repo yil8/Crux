@@ -13,43 +13,7 @@ public class Compiler {
     
     public static void main(String[] args)
     {
-//    	if (release) {
-//    		releasedMain(args[0]);
-//    	} else {
-//	        for (int i=1; i<=11; ++i) {
-//	        	String sourceFilename = String.format("tests/private/testP%02d.crx", i);
-//	        	fileCompile(sourceFilename);
-//	        }
-//    	}
-    	
-    	fileCompile(args[0]);
-    }
-    
-    public static void releasedMain(String sourceFilename)
-    {
-        Scanner s = null;
-        try {
-            s = new Scanner(new FileReader(sourceFilename));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error accessing the source file: \"" + sourceFilename + "\"");
-            System.exit(-2);
-        }
-
-        Parser p = new Parser(s);
-        p.parse();
-        if (p.hasError()) {
-            System.out.println("Error parsing file.");
-            System.out.println(p.errorReport());
-            System.exit(-3);
-        }
-        System.out.println("Crux program successfully parsed.");
-
-    }
-        
-    public static void fileCompile(String sourceFilename)
-    {
-//    	System.out.println("outputing for " + sourceFilename);
+        String sourceFilename = args[0];
         
         Scanner s = null;
         try {
@@ -62,18 +26,15 @@ public class Compiler {
 
         Parser p = new Parser(s);
         ast.Command syntaxTree = p.parse();
-        p.parse();
         if (p.hasError()) {
             System.out.println("Error parsing file " + sourceFilename);
             System.out.println(p.errorReport());
             System.exit(-3);
         }
-        System.out.println("Crux program successfully parsed.");
-
+        
         ast.PrettyPrinter pp = new ast.PrettyPrinter();
         syntaxTree.accept(pp);
         System.out.println(pp.toString());
-
     }
 }
     
