@@ -61,6 +61,7 @@ public class Compiler {
         }
 
         Parser p = new Parser(s);
+        ast.Command syntaxTree = p.parse();
         p.parse();
         if (p.hasError()) {
             System.out.println("Error parsing file " + sourceFilename);
@@ -69,26 +70,10 @@ public class Compiler {
         }
         System.out.println("Crux program successfully parsed.");
 
-        
-        
-        
-//        String outFilename = sourceFilename.replace(".crx", ".out.new");
-//        try {
-//            File outFile = new File(outFilename);
-//            PrintStream outStream = new PrintStream(outFile);
-//            if (p.hasError()) {
-//                outStream.println("Error parsing file.");
-//                outStream.println(p.errorReport());
-//                outStream.close();
-//                //System.exit(-3);
-//            }
-//            outStream.println("Crux program successfully parsed.");
-//            outStream.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.err.println("Error creating output file: \"" + outFilename + "\"");
-//            System.exit(-6);
-//        }
+        ast.PrettyPrinter pp = new ast.PrettyPrinter();
+        syntaxTree.accept(pp);
+        System.out.println(pp.toString());
+
     }
 }
     
