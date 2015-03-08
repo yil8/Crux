@@ -32,9 +32,14 @@ public class Compiler {
             System.exit(-3);
         }
         
-        ast.PrettyPrinter pp = new ast.PrettyPrinter();
-        syntaxTree.accept(pp);
-        System.out.println(pp.toString());
+        types.TypeChecker tc = new types.TypeChecker();
+        tc.check(syntaxTree);
+        if (tc.hasError()) {
+            System.out.println("Error type-checking file.");
+            System.out.println(tc.errorReport());
+        } else {
+        	System.out.println("Crux Program has no type errors.");
+        }
     }
 }
     

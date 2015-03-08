@@ -2,9 +2,6 @@ package ast;
 
 public interface CommandVisitor {
 	
-	//
-	public void visit(Expression node);
-	
 	public void visit(ExpressionList node);
 	public void visit(DeclarationList node);
 	public void visit(StatementList node);

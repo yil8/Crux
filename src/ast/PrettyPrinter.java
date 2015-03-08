@@ -19,16 +19,6 @@ public class PrettyPrinter implements CommandVisitor {
 	{
 		return sb.toString();
 	}
-		
-	@Override
-	public void visit(Expression node) {
-		println(node);
-		// depth++;
-		// e.accept(this);
-		// for (Expression e : node)
-// 			e.accept(this);
-		// depth--;
-	}	
 	
 	@Override
 	public void visit(ExpressionList node) {

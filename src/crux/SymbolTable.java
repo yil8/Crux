@@ -1,10 +1,6 @@
 package crux;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
-import java.util.Comparator;
 
 public class SymbolTable {
 	
@@ -99,31 +95,12 @@ public class SymbolTable {
 			indent += "  ";
 		}
 		
-		
-		/* Initially thought the output should be sorted
-		 * But later realized, no; the output of the outer scope
-		 * should list last the function currently being parsed.
-		 * Need to report/store symbols in the order declared.
-		List<Symbol> sorted = new ArrayList<Symbol>();
-		sorted.addAll(table);
-		Collections.sort(sorted, new SymbolComparator());
-		*/
 		for (Symbol s : table)
 		{
 			sb.append(indent + s.toString() + "\n");
 		}
 		return sb.toString();
 	}
-	
-	/*
-	private static class SymbolComparator implements Comparator<Symbol>
-	{
-		@Override
-		public int compare(Symbol s1, Symbol s2) {
-			return s1.name().compareTo(s2.name());
-		}
-	}
-	*/
 	
 	public SymbolTable parentTable()
 	{

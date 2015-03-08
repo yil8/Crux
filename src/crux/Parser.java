@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import ast.Command;
+import types.*;
 
 public class Parser {
     public static String studentName = "TODO: Your Name";
@@ -89,16 +89,28 @@ public class Parser {
     {
         symbolTable = new SymbolTable();
         Symbol s = symbolTable.insert("readInt");
+        s.setType(new FuncType(new TypeList(), new IntType()));
         
         s = symbolTable.insert("readFloat");
+        s.setType(new FuncType(new TypeList(), new FloatType()));
         
         s = symbolTable.insert("printBool");
+        TypeList args = new TypeList();
+        args.append(new BoolType());
+        s.setType(new FuncType(args, new VoidType()));
         
         s = symbolTable.insert("printInt");
+        args = new TypeList();
+        args.append(new IntType());
+        s.setType(new FuncType(args, new VoidType()));
         
         s = symbolTable.insert("printFloat");
+        args = new TypeList();
+        args.append(new FloatType());
+        s.setType(new FuncType(args, new VoidType()));
         
         s = symbolTable.insert("println");
+        s.setType(new FuncType(new TypeList(), new VoidType()));
     }
     
     private void enterScope()
@@ -146,7 +158,14 @@ public class Parser {
         errorBuffer.append(symbolTable.toString() + "\n");
         return message;
     }    
-           
+    
+// Typing System ===================================
+    
+    private Type tryResolveType(String typeStr)
+    {
+        return Type.getBaseType(typeStr);
+    }
+        
 // Parser ==========================================
     private Scanner scanner;
     private Token currentToken;
@@ -272,12 +291,29 @@ public class Parser {
     // literal := INTEGER | FLOAT | TRUE | FALSE .
     public ast.Expression literal()
     {
-        enterRule(NonTerminal.LITERAL);
+        ast.Expression expr;
         
-        Token tok = expectRetrieve(NonTerminal.LITERAL);
-        ast.Expression expr = Command.newLiteral(tok);
-
-        exitRule(NonTerminal.LITERAL);
+        enterRule(NonTerminal.LITERAL);
+        if (have(Token.Kind.INTEGER)) {
+            expr = ast.Command.newLiteral(currentToken);
+            expect(Token.Kind.INTEGER);
+            
+        } else if (have(Token.Kind.FLOAT)) {
+            expr = ast.Command.newLiteral(currentToken);
+            expect(Token.Kind.FLOAT);
+            
+        } else if (have(Token.Kind.TRUE)) {
+            expr = ast.Command.newLiteral(currentToken);
+            expect(Token.Kind.TRUE);
+            
+        } else if (have(Token.Kind.FALSE)) {
+            expr = ast.Command.newLiteral(currentToken);
+            expect(Token.Kind.FALSE);
+            
+        } else {
+            String message = reportSyntaxError(NonTerminal.LITERAL);
+            expr = new ast.Error(lineNumber(), charPosition(), message);
+        }
         return expr;
     }
     
@@ -300,11 +336,12 @@ public class Parser {
     }
     
     // type := IDENTIFIER .
-    public void type()
+    public Type type()
     {
         enterRule(NonTerminal.TYPE);
-        expectIdentifier();
+        Type t = tryResolveType(expectIdentifier());
         exitRule(NonTerminal.TYPE);
+        return t;
     }
 
     // op0 := ">=" | "<=" | "!=" | "==" | ">" | "<" .
@@ -449,7 +486,7 @@ public class Parser {
         enterRule(NonTerminal.PARAMETER);
         Symbol sym = tryDeclareSymbol(expectIdentifier());
         expect(Token.Kind.COLON);
-        type();
+        sym.setType(type());
         exitRule(NonTerminal.PARAMETER);
         return sym;
     }
@@ -479,7 +516,7 @@ public class Parser {
         expect(Token.Kind.VAR);
         Symbol sym = tryDeclareSymbol(expectIdentifier());
         expect(Token.Kind.COLON);
-        type();
+        sym.setType(type());
         expect(Token.Kind.SEMICOLON);
         exitRule(NonTerminal.VARIABLE_DECLARATION);
         
@@ -496,15 +533,20 @@ public class Parser {
         expect(Token.Kind.ARRAY);
         Symbol sym = tryDeclareSymbol(expectIdentifier());
         expect(Token.Kind.COLON);
-        type();
+        sym.setType(type());
         expect(Token.Kind.OPEN_BRACKET);
-        expect(Token.Kind.INTEGER);
+        Stack<Integer> indexes = new Stack<Integer>();
+        indexes.push(expectInteger());
         expect(Token.Kind.CLOSE_BRACKET);
         while (accept(Token.Kind.OPEN_BRACKET)) {
-            expect(Token.Kind.INTEGER);
+            indexes.push(expectInteger());
             expect(Token.Kind.CLOSE_BRACKET);
         }
         expect(Token.Kind.SEMICOLON);
+        
+        // arrays require reversing the description
+        while (!indexes.empty())
+            sym.setType(new ArrayType(indexes.pop(), sym.type()));
         
         exitRule(NonTerminal.ARRAY_DECLARATION);
         return new ast.ArrayDeclaration(lineNum, charPos, sym);
@@ -524,7 +566,13 @@ public class Parser {
         List<Symbol> params = parameter_list();
         expect(Token.Kind.CLOSE_PAREN);
         expect(Token.Kind.COLON);
-        type();
+        Type retType = type();
+        
+        TypeList paramTypes = new TypeList();
+        for (Symbol s : params) {
+            paramTypes.append(s.type());
+        }
+        sym.setType(new FuncType(paramTypes, retType));
         
         ast.StatementList body = statement_block();
         exitScope();
