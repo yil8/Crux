@@ -17,14 +17,13 @@ public class Compiler {
     
 	public static void main(String[] args) throws IOException, InterruptedException
 	{
-		String sourceFilename = args[0];
-		crux(sourceFilename);
-//		spim(sourceFilename);
-//		for (int i=1; i<=10; ++i) {
-//	    	String sourceFilename = String.format("tests/private/testP%02d.crx", i);
-//    		crux(sourceFilename);
-//    		spim(sourceFilename);
-//    	}
+		//String sourceFilename = args[0];
+		//crux(sourceFilename);
+		//for (int i=1; i<=10; ++i) {
+	    	//String sourceFilename = String.format("tests/private/testP%02d.crx", i);
+    		//crux(sourceFilename);
+    		//spim(sourceFilename);
+    	}
     }
 	
 	public static void crux(String sourceFilename)
@@ -65,10 +64,7 @@ public class Compiler {
         try {
 	        mips.Program prog = cg.getProgram();
 			File asmFile = new File(asmFilename);
-			PrintStream ps = new PrintStream(System.out);
-			prog.print(ps);
-			ps.close();
-			ps = new PrintStream(asmFile);
+			PrintStream ps = new PrintStream(asmFile);
 			prog.print(ps);
 			ps.close();
         } catch (IOException e) {

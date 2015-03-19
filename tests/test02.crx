@@ -1,5 +1,0 @@
-// test recursion on void function
-
-func main() : void {
-  return ::main();
-}

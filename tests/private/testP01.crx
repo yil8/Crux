@@ -1,0 +1,20 @@
+// test all of the floating comparisons
+
+func main() : void {
+  ::printBool(1.0 < 2.0);
+  ::printBool(2.0 < 1.0);
+  ::println();
+  ::printBool(1.0 <= 2.0);
+  ::printBool(2.0 <= 1.0);
+  ::println();
+  ::printBool(1.0 == 2.0);
+  ::printBool(2.0 == 1.0);
+  ::printBool(1.0 == 1.0);
+  ::println();
+  ::printBool(1.0 > 2.0);
+  ::printBool(2.0 > 1.0);
+  ::println();
+  ::printBool(1.0 >= 2.0);
+  ::printBool(2.0 >= 1.0);
+}
+  

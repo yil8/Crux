@@ -69,11 +69,13 @@ public class PrettyPrinter implements CommandVisitor {
 
 	@Override
 	public void visit(VariableDeclaration node) {
+		// TODO: type info
 		println(node);
 	}
 
 	@Override
 	public void visit(ArrayDeclaration node) {
+		// TODO: type info
 		println(node);
 	}
 
@@ -81,7 +83,7 @@ public class PrettyPrinter implements CommandVisitor {
 	public void visit(FunctionDefinition node) {
 		println(node);
 		depth++;
-		node.body().accept(this);
+		visit(node.body());
 		depth--;
 	}
 

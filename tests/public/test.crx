@@ -1,0 +1,23 @@
+// test calling functions
+var c:int;
+
+func myAddTen(a:int) : int {
+  var x:int;
+  let x = 10;
+  return a + x;
+}
+
+func myPrintTwo(a:int, b:int) : void {
+  var x:int;
+  let x = ::myAddTen(b);
+  ::printInt(a);
+  ::printInt(x);
+}
+
+
+func main() : void {
+  let c = 2;
+  ::myPrintTwo(1, c);
+  ::println();
+}
+

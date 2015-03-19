@@ -1,0 +1,20 @@
+// test recursion using towers of hanoi
+
+func hanoi(n:int,from:int,temp:int,to:int) : void {
+  if (n == 1) {
+    ::printInt(from);
+    ::printInt(to);
+    ::println();
+  } else {
+    ::hanoi(n-1,from,to,temp);
+    ::printInt(from);
+    ::printInt(to);
+    ::println();
+    ::hanoi(n-1,temp,from,to);
+  }
+}
+
+func main() : void {
+  ::hanoi(5, 111,222,333);
+}
+

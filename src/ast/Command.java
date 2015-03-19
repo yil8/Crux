@@ -1,5 +1,7 @@
 package ast;
 
+import javax.swing.RowFilter.ComparisonType;
+
 import crux.Token;
 
 public abstract class Command implements Visitable {

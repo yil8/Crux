@@ -1,0 +1,14 @@
+// test that dead code is not executed
+
+var a : int;
+
+func badFunc() : int {
+  return 0;
+  let a = 10;
+}
+
+func main() : void {
+  let a = 42;
+  ::badFunc();
+  ::printInt(a);
+}

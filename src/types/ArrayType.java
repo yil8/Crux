@@ -24,7 +24,7 @@ public class ArrayType extends Type {
 	@Override
 	public String toString()
 	{
-		return "array[" + extent + "," + base + "]";
+		return "array[" + extent + "]:" + base;
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class ArrayType extends Type {
 	{
 		if (that == null)
 			return false;
-		if (!(that instanceof ArrayType))
+		if (!(that instanceof IntType))
 			return false;
 		
 		ArrayType aType = (ArrayType)that;

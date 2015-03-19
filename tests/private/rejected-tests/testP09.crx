@@ -1,0 +1,12 @@
+// test recursive call to special function main
+
+func main() : void {
+  var a : int;
+  let a = ::readInt();
+  if (a != 0) {
+    ::printInt(a);
+    ::println();
+    return ::main();
+  }
+  ::printFloat(99.9);
+}

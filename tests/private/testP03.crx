@@ -1,0 +1,99 @@
+// test multiple returns ok
+
+func case1(cond:bool) : int {
+  var a : int;
+  if (cond) {
+    let a = 7;
+  } else {
+    let a = 8;
+  }
+  return a;
+}
+
+func case2(cond:bool) : int {
+  var a : int;
+
+  if (cond) {
+    let a = 7;
+    return a;
+    let a = 10;
+  } else {
+    let a = 8;
+  }
+  return a;
+}
+
+func case3(cond:bool) : int {
+  var a : int;
+
+  if (cond) {
+    let a = 7;
+  } else {
+    let a = 8;
+    return a;
+    let a = 10;
+  }
+  return a;
+}
+
+func case4(cond:bool) : int {
+  var a : int;
+  let a = 10;
+  var i : int;
+
+  let i = 0;
+  while (cond) {
+    let a = 7;
+    return a;
+    let i = i + 1;
+    let cond = i < 7;
+  }
+  return a;
+}
+
+func case5(cond:bool) : int {
+  var a : int;
+
+  if (cond) {
+    let a = 7;
+    return a;
+    let a = 11;
+  } else {
+    let a = 8;
+    return a;
+    let a = 10;
+  }
+  return a;
+}
+
+func main() : void {
+  ::printInt(::case1(true));
+  ::println();
+  ::printInt(::case1(false));
+  ::println();
+  ::println();
+
+  ::printInt(::case2(true));
+  ::println();
+  ::printInt(::case2(false));
+  ::println();
+  ::println();
+
+  ::printInt(::case3(true));
+  ::println();
+  ::printInt(::case3(false));
+  ::println();
+  ::println();
+
+  ::printInt(::case4(true));
+  ::println();
+  ::printInt(::case4(false));
+  ::println();
+  ::println();
+
+  ::printInt(::case5(true));
+  ::println();
+  ::printInt(::case5(false));
+  ::println();
+  ::println();
+}

@@ -1,0 +1,20 @@
+// test that function return is cleaned from stack if not used.
+
+func badRandom() : int {
+  return 4;
+}
+
+func test() : int {
+  ::badRandom();
+  ::badRandom();
+  ::badRandom();
+  ::badRandom();
+  return 1;
+}
+
+func main() : void {
+  var x : int;
+  
+  let x = 41 + ::test();
+  ::printInt(x);
+}

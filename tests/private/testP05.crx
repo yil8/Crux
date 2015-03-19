@@ -1,0 +1,29 @@
+// test that calling a function with a return doesn't blow the stack
+
+func badRandom() : int {
+  return 4; // I rolled a die for this, guaranteed random
+}
+
+func main() : void {
+  var outer : int;
+  let outer = 0;
+  while (outer < 1) {
+    //::println();
+    //::printInt(outer);
+    //::println();
+    
+    var inner : int;
+    let inner = 0;
+    while (inner < 100000) {
+      //::printInt(inner);
+      //::println();
+    
+      ::badRandom();
+      let inner = inner + 1;
+    }
+    let outer = outer + 1;
+  }
+  ::printBool(true);
+  ::println();
+}
+

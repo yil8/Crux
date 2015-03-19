@@ -1,0 +1,38 @@
+// test that block level scoping doesn't conflate values
+
+func testDifferentTypes() : void {
+  var a : int;
+  let a = 7;
+
+  if (true) {
+    var a : float;
+    let a = 8.0;
+    ::printFloat(a);
+    ::println();
+  }
+
+  ::printInt(a);
+  ::println();
+}
+
+func testSameTypes() : void {
+  var a : int;
+  let a = 7;
+
+  if (true) {
+    var a : int;
+    let a = 8;
+    ::printInt(a);
+    ::println();
+  }
+
+  ::printInt(a);
+  ::println();
+}
+
+func main() : void {
+  ::testDifferentTypes();
+  ::println();
+  ::testSameTypes();
+}
+

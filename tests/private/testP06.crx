@@ -1,0 +1,24 @@
+// test that var decl in loop doesn't blow the stack
+
+func main() : void {
+  var outer : int;
+  let outer = 0;
+  while (outer < 1) {
+    //::println();
+    //::printInt(outer);
+    //::println();
+    
+    var inner : int;
+    let inner = 0;
+    while (inner < 100000) {
+      //::printInt(inner);
+      //::println();
+      var decl : int;
+      let inner = inner + 1;
+    }
+    let outer = outer + 1;
+  }
+  ::printBool(true);
+  ::println();
+}
+
